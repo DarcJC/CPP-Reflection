@@ -8,7 +8,7 @@
 
 #if defined(__REFLECTION_PARSER__)
 
-    #define Meta(...) __attribute__((annotate(#__VA_ARGS__)))
+    #define Meta(...) [[#__VA_ARGS__]]
 
     #define __META_EXTERNAL(type, guid)       \
         typedef type __META_EXTERNAL__##guid; \
