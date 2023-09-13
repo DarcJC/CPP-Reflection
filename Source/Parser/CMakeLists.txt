@@ -72,7 +72,7 @@ set(Boost_ALL_NO_LIB ON)
 # disable auto-linking
 add_definitions(-DBOOST_ALL_NO_LIB)
 
-find_package(Boost 1.59.0 REQUIRED 
+find_package(Boost REQUIRED
     COMPONENTS 
     system
     filesystem
@@ -102,8 +102,6 @@ link_directories(${LLVM_LIBRARY_DIR})
 
 # statically link with Boost & LibClang
 target_link_libraries(MetaParser ${Boost_LIBRARIES} ${LIBCLANG_LIBRARY})
-
-set_precompiled_header(MetaParser Precompiled.h Precompiled.cpp)
 
 if (MSVC)
     # disable security warnings
@@ -135,7 +133,10 @@ if (MSVC)
 
     # normalize slashes
     string(REPLACE "\\" "/" SYSTEM_INCLUDES "${SYSTEM_INCLUDES}")
+
+    #target_compile_options(MetaParser PRIVATE "/FI${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${PROJECT_NAME}.dir/$<CONFIG>/Precompiled.pch")
 else ()
+    set_precompiled_header(MetaParser Precompiled.h Precompiled.cpp)
     target_compile_options(MetaParser
         PUBLIC -std=c++11
     )
